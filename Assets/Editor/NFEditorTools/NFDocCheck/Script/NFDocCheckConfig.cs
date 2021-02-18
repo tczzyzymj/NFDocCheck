@@ -9,13 +9,13 @@ public class NFDocCheckConfig : ScriptableObject
     /// <summary>
     /// 开始的列下标
     /// </summary>
-    public int StartColIndex;
+    public int StartColIndex = 1;
 
 
     /// <summary>
-    /// 开始的行下标
+    /// 开始的行下标，包含了KEY，因为要做处理，这里算是一个潜规则了
     /// </summary>
-    public int StartRowindex;
+    public int StartRowIndex = 1;
 
 
     /// <summary>

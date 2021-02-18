@@ -54,6 +54,9 @@ public class NFDocCheckWindow : EditorWindow
     private NFDocCheckDrawForTotalDoc mTotalDocDraw = null;
 
 
+    private NFDocCheckDrawForSingleDoc mSingleDocConfigDraw = null;
+
+
     private NFDocCheckDrawForMainCatalog mMainCatalogDrawer = null;
 
 
@@ -63,6 +66,12 @@ public class NFDocCheckWindow : EditorWindow
         {
             return mIns;
         }
+    }
+
+
+    private void OnDestroy()
+    {
+        mIns = null;
     }
 
 
@@ -90,6 +99,20 @@ public class NFDocCheckWindow : EditorWindow
         }
 
         mCurrentDrawer = mMainCatalogDrawer;
+
+        var _tempPath = Path.Combine(
+            Application.dataPath,
+            this.DocCheckConfig.DocFolderRelativePath
+        );
+
+        DirectoryInfo _info = new DirectoryInfo(_tempPath);
+
+        if (!_info.Exists)
+        {
+            Debug.LogError($"错误，路径:[{_info.FullName}]不存在，请检查！");
+        }
+
+        this.DocFolderFullPath = _info.FullName + "\\";
     }
 
 
@@ -123,9 +146,29 @@ public class NFDocCheckWindow : EditorWindow
 
 
     /// <summary>
+    /// 绘制单个的
+    /// </summary>
+    /// <param name="fileFullPath">传入的是文件全路径，包含了拓展名</param>
+    public void ShowSingleDocConfig(string fileFullPath)
+    {
+        if (mSingleDocConfigDraw == null)
+        {
+            mSingleDocConfigDraw = new NFDocCheckDrawForSingleDoc();
+        }
+
+        if (!mSingleDocConfigDraw.InitTarget(fileFullPath))
+        {
+            return;
+        }
+
+        mCurrentDrawer = mSingleDocConfigDraw;
+    }
+
+
+    /// <summary>
     /// 显示所有文件的总配置
     /// </summary>
-    public void ShowTotalDocConfig()
+    public void ShowTotalDoc()
     {
         if (mTotalDocDraw == null)
         {

@@ -37,13 +37,16 @@ public class NFDocCheckDrawForConfig : NFDocCheckDrawBase
                     NFDocCheckWindow.Ins.DocCheckConfig.DocFolderRelativePath
                 );
 
-                var _tempPath = EditorUtility.OpenFolderPanel(
+                var _selectFolderPath = EditorUtility.OpenFolderPanel(
                     "选择Doc文件夹",
                     _fullPath,
                     string.Empty
                 );
 
-                // 这里去获取一下相对路径
+                NFDocCheckWindow.Ins.DocCheckConfig.DocFolderRelativePath =
+                    NFEditorHelper.GetRelatePathToApplicationDataPath(
+                        _selectFolderPath
+                    );
             }
 
             EditorGUILayout.LabelField(NFDocCheckWindow.Ins.DocCheckConfig.DocFolderRelativePath);
@@ -51,18 +54,18 @@ public class NFDocCheckDrawForConfig : NFDocCheckDrawBase
 
         EditorGUILayout.EndHorizontal();
 
-        NFDocCheckWindow.Ins.DocCheckConfig.StartRowindex = EditorGUILayout.IntField(
-            "表格开始行下标",
-            NFDocCheckWindow.Ins.DocCheckConfig.StartRowindex
+        NFDocCheckWindow.Ins.DocCheckConfig.StartRowIndex = EditorGUILayout.IntField(
+            "KEY的行下标(从1开始)",
+            NFDocCheckWindow.Ins.DocCheckConfig.StartRowIndex
         );
 
         NFDocCheckWindow.Ins.DocCheckConfig.StartColIndex = EditorGUILayout.IntField(
-            "表格开始列下标",
+            "表格开始列下标(从1开始)",
             NFDocCheckWindow.Ins.DocCheckConfig.StartColIndex
         );
 
         NFDocCheckWindow.Ins.DocCheckConfig.SplitSymbol = EditorGUILayout.TextField(
-            "分割符",
+            "表格数组分割符",
             NFDocCheckWindow.Ins.DocCheckConfig.SplitSymbol
         );
     }

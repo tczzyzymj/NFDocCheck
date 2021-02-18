@@ -17,7 +17,7 @@ public class NFDocCheckDrawForMainCatalog : NFDocCheckDrawBase
 
         if (GUILayout.Button("浏览文件配置"))
         {
-            NFDocCheckWindow.Ins.ShowTotalDocConfig();
+            NFDocCheckWindow.Ins.ShowTotalDoc();
         }
     }
 }

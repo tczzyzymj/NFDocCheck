@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Config
   m_EditorClassIdentifier: 
   StartColIndex: 2
-  StartRowindex: 3
-  DocFolderFullPath: /Users/ziyangyi/GitProject/NFDocChecker/Doc/excel
+  StartRowIndex: 4
+  DocFolderRelativePath: ../Doc/excel
   SplitSymbol: ~
