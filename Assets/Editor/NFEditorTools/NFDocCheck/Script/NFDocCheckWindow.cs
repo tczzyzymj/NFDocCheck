@@ -35,10 +35,23 @@ public class NFDocCheckWindow : EditorWindow
     }
 
 
+    /// <summary>
+    /// DOC 文件夹的全路径，保存的是一个相对路径
+    /// </summary>
+    public string DocFolderFullPath
+    {
+        get;
+        set;
+    }
+
+
     private NFDocCheckDrawBase mCurrentDrawer = null;
 
 
     private NFDocCheckDrawForConfig mConfigDrawer = null;
+
+
+    private NFDocCheckDrawForTotalDoc mTotalDocDraw = null;
 
 
     private NFDocCheckDrawForMainCatalog mMainCatalogDrawer = null;
@@ -106,6 +119,20 @@ public class NFDocCheckWindow : EditorWindow
         }
 
         mCurrentDrawer = mConfigDrawer;
+    }
+
+
+    /// <summary>
+    /// 显示所有文件的总配置
+    /// </summary>
+    public void ShowTotalDocConfig()
+    {
+        if (mTotalDocDraw == null)
+        {
+            mTotalDocDraw = new NFDocCheckDrawForTotalDoc();
+        }
+
+        mCurrentDrawer = mTotalDocDraw;
     }
 
 

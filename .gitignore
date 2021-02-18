@@ -7,3 +7,4 @@ Obj
 *.csproj
 Temp
 .DS_Store
+*.user

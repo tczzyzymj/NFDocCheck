@@ -6,18 +6,13 @@ using UnityEditor;
 using UnityEngine;
 
 
-public class NFDocCheckDrawForMainCatalog : NFDocCheckDrawBase
+public class NFDocCheckDrawForSingleDoc : NFDocCheckDrawBase
 {
     public override void Draw()
     {
-        if (GUILayout.Button("更改总配置"))
+        if (GUILayout.Button("更改配置"))
         {
             NFDocCheckWindow.Ins.ShowChangeConfig();
-        }
-
-        if (GUILayout.Button("浏览文件配置"))
-        {
-            NFDocCheckWindow.Ins.ShowTotalDocConfig();
         }
     }
 }

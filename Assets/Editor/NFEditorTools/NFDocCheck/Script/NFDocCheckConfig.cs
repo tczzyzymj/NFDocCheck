@@ -19,9 +19,9 @@ public class NFDocCheckConfig : ScriptableObject
 
 
     /// <summary>
-    /// doc文件的全路径
+    /// doc文件的相对路径，因为可能有不同的人使用，所以这里最好是这样做
     /// </summary>
-    public string DocFolderFullPath;
+    public string DocFolderRelativePath;
 
 
     /// <summary>

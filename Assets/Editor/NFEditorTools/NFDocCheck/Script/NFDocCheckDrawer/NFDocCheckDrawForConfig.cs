@@ -10,20 +10,43 @@ public class NFDocCheckDrawForConfig : NFDocCheckDrawBase
 {
     public override void Draw()
     {
+        EditorGUILayout.BeginHorizontal();
+
+        {
+            if (GUILayout.Button("保存设置"))
+            {
+                OnClickSaveButton();
+            }
+
+            if (GUILayout.Button("返回主目录"))
+            {
+                OnClickReturnButton();
+            }
+        }
+
+        EditorGUILayout.EndHorizontal();
+
         // 这里绘制一下设置
         EditorGUILayout.BeginHorizontal();
 
         {
             if (GUILayout.Button("选择Doc文件夹", GUILayout.Width(100)))
             {
-                NFDocCheckWindow.Ins.DocCheckConfig.DocFolderFullPath = EditorUtility.OpenFolderPanel(
+                var _fullPath = Path.Combine(
+                    Application.dataPath,
+                    NFDocCheckWindow.Ins.DocCheckConfig.DocFolderRelativePath
+                );
+
+                var _tempPath = EditorUtility.OpenFolderPanel(
                     "选择Doc文件夹",
-                    NFDocCheckWindow.Ins.DocCheckConfig.DocFolderFullPath,
+                    _fullPath,
                     string.Empty
                 );
+
+                // 这里去获取一下相对路径
             }
 
-            EditorGUILayout.LabelField(NFDocCheckWindow.Ins.DocCheckConfig.DocFolderFullPath);
+            EditorGUILayout.LabelField(NFDocCheckWindow.Ins.DocCheckConfig.DocFolderRelativePath);
         }
 
         EditorGUILayout.EndHorizontal();
@@ -42,22 +65,6 @@ public class NFDocCheckDrawForConfig : NFDocCheckDrawBase
             "分割符",
             NFDocCheckWindow.Ins.DocCheckConfig.SplitSymbol
         );
-
-        EditorGUILayout.BeginHorizontal();
-
-        {
-            if (GUILayout.Button("保存设置"))
-            {
-                OnClickSaveButton();
-            }
-
-            if (GUILayout.Button("返回主目录"))
-            {
-                OnClickReturnButton();
-            }
-        }
-
-        EditorGUILayout.EndHorizontal();
     }
 
 
