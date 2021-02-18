@@ -149,7 +149,7 @@ public class NFDocCheckDrawForTotalDoc : NFDocCheckDrawBase
             EditorGUILayout.LabelField(
                 string.Format(
                     "路径：{0} 下无法找到文件",
-                    NFDocCheckWindow.Ins.DocCheckConfig.DocFolderRelativePath
+                    NFDocCheckWindow.Ins.DocCheckScriptableData.ConfigData.DocFolderRelativePath
                 )
             );
 

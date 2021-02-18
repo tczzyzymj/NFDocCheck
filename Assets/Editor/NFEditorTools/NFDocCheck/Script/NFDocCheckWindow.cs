@@ -11,26 +11,26 @@ public class NFDocCheckWindow : EditorWindow
     private static NFDocCheckWindow mIns;
 
 
-    private string mConfigFilePath = string.Empty;
+    private string mScriptLogicDataFilePath = string.Empty;
 
 
-    public string ConfigFilePath
+    public string ScriptLogicDataFilePath
     {
         get
         {
-            return mConfigFilePath;
+            return mScriptLogicDataFilePath;
         }
     }
 
 
-    private NFDocCheckConfig mConfig = null;
+    private NFDocCheckScriptableData mScriptableData = null;
 
 
-    public NFDocCheckConfig DocCheckConfig
+    public NFDocCheckScriptableData DocCheckScriptableData
     {
         get
         {
-            return mConfig;
+            return mScriptableData;
         }
     }
 
@@ -78,19 +78,22 @@ public class NFDocCheckWindow : EditorWindow
     private void Awake()
     {
         // 这里去读取一下
-        mConfigFilePath = Path.Combine(
+        mScriptLogicDataFilePath = Path.Combine(
             Application.dataPath,
             string.Format(
-                "Editor/{0}/NFDocCheck/Config/Config.asset",
+                "Editor/{0}/NFDocCheck/ScriptLogicData.asset",
                 NFEditorPath.EditorFolderName
             )
         );
 
-        mConfig = AssetDatabase.LoadAssetAtPath<NFDocCheckConfig>(NFEditorHelper.GetAssetDatabasePath(mConfigFilePath));
+        mScriptableData =
+            AssetDatabase.LoadAssetAtPath<NFDocCheckScriptableData>(
+                NFEditorHelper.GetAssetDatabasePath(mScriptLogicDataFilePath)
+            );
 
-        if (mConfig == null)
+        if (mScriptableData == null)
         {
-            mConfig = ScriptableObject.CreateInstance<NFDocCheckConfig>();
+            mScriptableData = ScriptableObject.CreateInstance<NFDocCheckScriptableData>();
         }
 
         if (mMainCatalogDrawer == null)
@@ -100,9 +103,20 @@ public class NFDocCheckWindow : EditorWindow
 
         mCurrentDrawer = mMainCatalogDrawer;
 
+        RefreshDocFolderFullPath();
+    }
+
+
+    public void RefreshDocFolderFullPath()
+    {
+        if (string.IsNullOrEmpty(DocCheckScriptableData.ConfigData.DocFolderRelativePath))
+        {
+            return;
+        }
+
         var _tempPath = Path.Combine(
             Application.dataPath,
-            this.DocCheckConfig.DocFolderRelativePath
+            this.DocCheckScriptableData.ConfigData.DocFolderRelativePath
         );
 
         DirectoryInfo _info = new DirectoryInfo(_tempPath);

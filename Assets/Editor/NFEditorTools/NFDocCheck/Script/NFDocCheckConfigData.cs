@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+
 [Serializable]
-public class NFDocCheckConfig : ScriptableObject
+public class NFDocCheckConfigData
 {
     /// <summary>
     /// 开始的列下标

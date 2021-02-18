@@ -9,10 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e04520883612747de8df2fd292ec8b74, type: 3}
-  m_Name: Config
+  m_Script: {fileID: 11500000, guid: c4b24c6dfee0ed94da0ae63044fc4ed6, type: 3}
+  m_Name: ScriptLogicData
   m_EditorClassIdentifier: 
-  StartColIndex: 2
-  StartRowIndex: 4
-  DocFolderRelativePath: ../Doc/excel
-  SplitSymbol: ~
+  ConfigData:
+    StartColIndex: 2
+    StartRowIndex: 4
+    DocFolderRelativePath: ../Doc/excel
+    SplitSymbol: ~

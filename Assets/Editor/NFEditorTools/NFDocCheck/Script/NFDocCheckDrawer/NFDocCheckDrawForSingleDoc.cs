@@ -58,9 +58,9 @@ public class NFDocCheckDrawForSingleDoc : NFDocCheckDrawBase
     {
         var _excelHelper = new NFExcelHelper();
 
-        var _startColIndex = NFDocCheckWindow.Ins.DocCheckConfig.StartColIndex;
+        var _startColIndex = NFDocCheckWindow.Ins.DocCheckScriptableData.ConfigData.StartColIndex;
 
-        var _startRowIndex = NFDocCheckWindow.Ins.DocCheckConfig.StartRowIndex;
+        var _startRowIndex = NFDocCheckWindow.Ins.DocCheckScriptableData.ConfigData.StartRowIndex;
 
         // 这里去记录一下KEY就行了
         _excelHelper.LoopThroughExcel(
@@ -124,6 +124,10 @@ public class NFDocCheckDrawForSingleDoc : NFDocCheckDrawBase
 
                     {
                         EditorGUILayout.LabelField(mKeyList[i], GUILayout.Height(30));
+
+                        if (GUILayout.Button("设置", GUILayout.Height(30)))
+                        {
+                        }
                     }
 
                     EditorGUILayout.EndHorizontal();

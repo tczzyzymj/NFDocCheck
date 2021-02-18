@@ -32,10 +32,15 @@ public class NFDocCheckDrawForConfig : NFDocCheckDrawBase
         {
             if (GUILayout.Button("选择Doc文件夹", GUILayout.Width(100)))
             {
-                var _fullPath = Path.Combine(
-                    Application.dataPath,
-                    NFDocCheckWindow.Ins.DocCheckConfig.DocFolderRelativePath
-                );
+                var _fullPath = string.Empty;
+
+                if (!string.IsNullOrEmpty(NFDocCheckWindow.Ins.DocCheckScriptableData.ConfigData.DocFolderRelativePath))
+                {
+                    _fullPath = Path.Combine(
+                        Application.dataPath,
+                        NFDocCheckWindow.Ins.DocCheckScriptableData.ConfigData.DocFolderRelativePath
+                    );
+                }
 
                 var _selectFolderPath = EditorUtility.OpenFolderPanel(
                     "选择Doc文件夹",
@@ -43,30 +48,32 @@ public class NFDocCheckDrawForConfig : NFDocCheckDrawBase
                     string.Empty
                 );
 
-                NFDocCheckWindow.Ins.DocCheckConfig.DocFolderRelativePath =
+                NFDocCheckWindow.Ins.DocCheckScriptableData.ConfigData.DocFolderRelativePath =
                     NFEditorHelper.GetRelatePathToApplicationDataPath(
                         _selectFolderPath
                     );
+
+                NFDocCheckWindow.Ins.RefreshDocFolderFullPath();
             }
 
-            EditorGUILayout.LabelField(NFDocCheckWindow.Ins.DocCheckConfig.DocFolderRelativePath);
+            EditorGUILayout.LabelField(NFDocCheckWindow.Ins.DocCheckScriptableData.ConfigData.DocFolderRelativePath);
         }
 
         EditorGUILayout.EndHorizontal();
 
-        NFDocCheckWindow.Ins.DocCheckConfig.StartRowIndex = EditorGUILayout.IntField(
+        NFDocCheckWindow.Ins.DocCheckScriptableData.ConfigData.StartRowIndex = EditorGUILayout.IntField(
             "KEY的行下标(从1开始)",
-            NFDocCheckWindow.Ins.DocCheckConfig.StartRowIndex
+            NFDocCheckWindow.Ins.DocCheckScriptableData.ConfigData.StartRowIndex
         );
 
-        NFDocCheckWindow.Ins.DocCheckConfig.StartColIndex = EditorGUILayout.IntField(
+        NFDocCheckWindow.Ins.DocCheckScriptableData.ConfigData.StartColIndex = EditorGUILayout.IntField(
             "表格开始列下标(从1开始)",
-            NFDocCheckWindow.Ins.DocCheckConfig.StartColIndex
+            NFDocCheckWindow.Ins.DocCheckScriptableData.ConfigData.StartColIndex
         );
 
-        NFDocCheckWindow.Ins.DocCheckConfig.SplitSymbol = EditorGUILayout.TextField(
+        NFDocCheckWindow.Ins.DocCheckScriptableData.ConfigData.SplitSymbol = EditorGUILayout.TextField(
             "表格数组分割符",
-            NFDocCheckWindow.Ins.DocCheckConfig.SplitSymbol
+            NFDocCheckWindow.Ins.DocCheckScriptableData.ConfigData.SplitSymbol
         );
     }
 
@@ -74,11 +81,11 @@ public class NFDocCheckDrawForConfig : NFDocCheckDrawBase
     private void OnClickSaveButton()
     {
         // 这里先检测一下文件夹是否存在
-        FileInfo _info = new FileInfo(NFDocCheckWindow.Ins.ConfigFilePath);
+        FileInfo _info = new FileInfo(NFDocCheckWindow.Ins.ScriptLogicDataFilePath);
 
         if (_info == null || _info.Directory == null)
         {
-            Debug.LogError("错误，无法获取路径：" + NFDocCheckWindow.Ins.ConfigFilePath);
+            Debug.LogError("错误，无法获取路径：" + NFDocCheckWindow.Ins.ScriptLogicDataFilePath);
 
             return;
         }
@@ -92,17 +99,17 @@ public class NFDocCheckDrawForConfig : NFDocCheckDrawBase
 
         try
         {
-            if (File.Exists(NFDocCheckWindow.Ins.ConfigFilePath))
+            if (File.Exists(NFDocCheckWindow.Ins.ScriptLogicDataFilePath))
             {
-                EditorUtility.SetDirty(NFDocCheckWindow.Ins.DocCheckConfig);
+                EditorUtility.SetDirty(NFDocCheckWindow.Ins.DocCheckScriptableData);
 
                 AssetDatabase.SaveAssets();
             }
             else
             {
                 AssetDatabase.CreateAsset(
-                    NFDocCheckWindow.Ins.DocCheckConfig,
-                    NFEditorHelper.GetAssetDatabasePath(NFDocCheckWindow.Ins.ConfigFilePath)
+                    NFDocCheckWindow.Ins.DocCheckScriptableData,
+                    NFEditorHelper.GetAssetDatabasePath(NFDocCheckWindow.Ins.ScriptLogicDataFilePath)
                 );
             }
 
