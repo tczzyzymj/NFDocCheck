@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class NFDocCheckDrawBase
+
+public class NFDocCheckDrawBase
 {
-    public abstract void Draw();
+    public virtual void Draw()
+    {
+    }
 }

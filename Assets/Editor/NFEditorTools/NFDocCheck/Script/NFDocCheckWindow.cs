@@ -5,15 +5,52 @@ using UnityEditor;
 using System;
 using System.IO;
 
-public class NFDocCheckConfigWindow : EditorWindow
+
+public class NFDocCheckWindow : EditorWindow
 {
-    private static NFDocCheckConfigWindow mIns;
+    private static NFDocCheckWindow mIns;
 
 
     private string mConfigFilePath = string.Empty;
 
 
+    public string ConfigFilePath
+    {
+        get
+        {
+            return mConfigFilePath;
+        }
+    }
+
+
     private NFDocCheckConfig mConfig = null;
+
+
+    public NFDocCheckConfig DocCheckConfig
+    {
+        get
+        {
+            return mConfig;
+        }
+    }
+
+
+    private NFDocCheckDrawBase mCurrentDrawer = null;
+
+
+    private NFDocCheckDrawForConfig mConfigDrawer = null;
+
+
+    private NFDocCheckDrawForMainCatalog mMainCatalogDrawer = null;
+
+
+    public static NFDocCheckWindow Ins
+    {
+        get
+        {
+            return mIns;
+        }
+    }
 
 
     private void Awake()
@@ -33,6 +70,13 @@ public class NFDocCheckConfigWindow : EditorWindow
         {
             mConfig = ScriptableObject.CreateInstance<NFDocCheckConfig>();
         }
+
+        if (mMainCatalogDrawer == null)
+        {
+            mMainCatalogDrawer = new NFDocCheckDrawForMainCatalog();
+        }
+
+        mCurrentDrawer = mMainCatalogDrawer;
     }
 
 
@@ -40,7 +84,7 @@ public class NFDocCheckConfigWindow : EditorWindow
     {
         if (mIns == null)
         {
-            mIns = EditorWindow.CreateInstance<NFDocCheckConfigWindow>();
+            mIns = EditorWindow.CreateInstance<NFDocCheckWindow>();
         }
 
         if (mIns == null)
@@ -54,63 +98,25 @@ public class NFDocCheckConfigWindow : EditorWindow
     }
 
 
+    public void ShowChangeConfig()
+    {
+        if (mConfigDrawer == null)
+        {
+            mConfigDrawer = new NFDocCheckDrawForConfig();
+        }
+
+        mCurrentDrawer = mConfigDrawer;
+    }
+
+
+    public void ShowMainCatalog()
+    {
+        mCurrentDrawer = mMainCatalogDrawer;
+    }
+
+
     private void OnGUI()
     {
-        // 这里绘制一下设置
-        {
-            EditorGUILayout.BeginHorizontal();
-            {
-                if (GUILayout.Button("选择Doc文件夹", GUILayout.Width(100)))
-                {
-                    mConfig.DocFolderFullPath = EditorUtility.OpenFolderPanel("选择Doc文件夹", mConfig.DocFolderFullPath, string.Empty);
-                }
-
-                EditorGUILayout.LabelField(mConfig.DocFolderFullPath);
-            }
-            EditorGUILayout.EndHorizontal();
-
-            mConfig.StartRowindex = EditorGUILayout.IntField("表格开始行下标", mConfig.StartRowindex);
-
-            mConfig.StartColIndex = EditorGUILayout.IntField("表格开始列下标", mConfig.StartColIndex);
-
-            mConfig.SplitSymbol = EditorGUILayout.TextField("分割符", mConfig.SplitSymbol);
-        }
-
-        if (GUILayout.Button("保存设置"))
-        {
-            // 这里先检测一下文件夹是否存在
-            FileInfo _info = new FileInfo(mConfigFilePath);
-            if (!_info.Directory.Exists)
-            {
-                _info.Directory.Create();
-            }
-
-            bool _success = false;
-
-            try
-            {
-                if (File.Exists(mConfigFilePath))
-                {
-                    EditorUtility.SetDirty(mConfig);
-
-                    AssetDatabase.SaveAssets();
-                }
-                else
-                {
-                    AssetDatabase.CreateAsset(mConfig, NFEditorHelper.GetAssetDatabasePath(mConfigFilePath));
-                }
-
-                _success = true;
-            }
-            catch (Exception e)
-            {
-                Debug.LogError(e.ToString());
-            }
-
-            if (_success)
-            {
-                EditorUtility.DisplayDialog(string.Empty, "保存成功", "OK");
-            }
-        }
+        mCurrentDrawer?.Draw();
     }
 }

@@ -8,6 +8,6 @@ public class EditorTools
     [MenuItem("Nine Force Tools/DocChecker Config window")]
     public static void ShowDocCheckConfigWindow()
     {
-        NFDocCheckConfigWindow.Showwindow();
+        NFDocCheckWindow.Showwindow();
     }
 }
